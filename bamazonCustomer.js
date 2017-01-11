@@ -29,7 +29,7 @@ function init() {
             for (var i = 0; i < rows.length; i++) {
                 console.log(rows[i].item_id + " | " + rows[i].product_name + " | " +
                     rows[i].price);
-                console.log("\n------------------------------------------------");
+                console.log("------------------------------------------------");
             }
             promptProductId();
         }); //select
