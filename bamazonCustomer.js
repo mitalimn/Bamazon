@@ -72,11 +72,9 @@ function promptQuantity(itemId) {
                     { item_id: itemId }
                 ], function(err, rows) {
                     console.log("Order placed! \n Total Cost : " + cost);
-                    return;
                 })
             } else {
                 console.log("Insufficient Stock!!");
-                return;
             }
 
         }); //select query
