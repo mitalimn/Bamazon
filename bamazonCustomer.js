@@ -9,7 +9,7 @@ var conn = mysql.createConnection({
     password: keys.password,
     port: keys.port,
     database: 'bamazon_DB',
-    
+
 });
 
 
@@ -18,21 +18,21 @@ conn.connect(function(err) {
         console.error('error connecting: ' + err.stack);
         return;
     }
-     // console.log('connected as id ' + conn.threadId);
+    // console.log('connected as id ' + conn.threadId);
 });
 
 function init() {
     conn.query("SELECT item_id,product_name,price from products",
-     function(err, rows) {
-        console.log("\n****************Inventory*****************\n");
-        console.log("Item Id " + " " + " Product Name " + "\t Price \n===============================")
-        for (var i = 0; i <rows.length; i++) {
-            console.log(rows[i].item_id + " | " + rows[i].product_name + " | " +
-                rows[i].price);
-            console.log("\n------------------------------------------------");
-        }
-                promptProductId();
-    });//select
+        function(err, rows) {
+            console.log("\n****************Inventory*****************\n");
+            console.log("Item Id " + " " + " Product Name " + "\t Price \n===============================")
+            for (var i = 0; i < rows.length; i++) {
+                console.log(rows[i].item_id + " | " + rows[i].product_name + " | " +
+                    rows[i].price);
+                console.log("\n------------------------------------------------");
+            }
+            promptProductId();
+        }); //select
 }
 
 function promptProductId() {
@@ -44,13 +44,13 @@ function promptProductId() {
         var query = "select * from products where ?";
         conn.query(query, { item_id: ans.item_id }, function(err, rows) {
             if (err) throw err;
-            if(rows == ""){
+            if (rows == "") {
                 console.log("invalid ID");
-                promptProductId();
-            }
-            // var item = rows[0].item_id;         
-            promptQuantity(ans.item_id);
+                return;
+            } 
+            promptQuantity(ans.item_id);       
         })
+
     })
 }
 
@@ -63,24 +63,23 @@ function promptQuantity(itemId) {
         message: "How many you wish to buy ?"
     }]).then(function(ans) {
         var quantity = ans.qty;
-var query = "select * from products where ?";
-        conn.query(query, {item_id:itemId}, function(err, rows) {
-           if(quantity <= rows[0].stock_quantity){
+        var query = "select * from products where ?";
+        conn.query(query, { item_id: itemId }, function(err, rows) {
+            if (quantity <= rows[0].stock_quantity) {
                 var cost = (quantity * parseFloat(rows[0].price));
                 remItem = (parseInt(rows[0].stock_quantity) - quantity); //remaining quantity
-                conn.query("update products set ? where ?", [{stock_quantity:remItem},
-                    {item_id: itemId}] , function(err, rows){
-                        console.log("Order placed! \n Total Cost : "+cost);
-                        return;            
-                    })
-           }
-           else{
-            console.log("Insufficient Stock!!");
-            return;
-           }
+                conn.query("update products set ? where ?", [{ stock_quantity: remItem },
+                    { item_id: itemId }
+                ], function(err, rows) {
+                    console.log("Order placed! \n Total Cost : " + cost);
+                    return;
+                })
+            } else {
+                console.log("Insufficient Stock!!");
+                return;
+            }
 
-    });//select query
-})
+        }); //select query
+    })
 }
 init();
-
