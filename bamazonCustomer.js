@@ -75,6 +75,7 @@ function promptQuantity(itemId) {
                 })
             } else {
                 console.log("Insufficient Stock!!");
+                init();
             }
 
         }); //select query
