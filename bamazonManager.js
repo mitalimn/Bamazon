@@ -91,18 +91,13 @@ function addToInv() {
         type: "input",
         message: "How many you want to add ?"
     }]).then(function(answer) {
-        console.log(answer.itemid);
-        console.log(answer.quantity);
-
         conn.query("select * from products where ?", { item_id: answer.itemid },
             function(err, rows) {
-                console.log(rows);
                 var newqty = (parseInt(rows[0].stock_quantity) + parseInt(answer.quantity));
                 conn.query("update products set ? where ?", [{ stock_quantity: newqty },
                     { item_id: answer.itemid },
                 ], function(err, rows) {
-                    console.log("stock Added successfully")
-                    console.log(rows);
+                    console.log("Stock Added successfully");
                 });
             })
     });
@@ -131,6 +126,14 @@ function addProduct(){
             department_name: ans.deptName,
             price : ans.newprice, stock_quantity : ans.newStockQuantity}, function(err,rows){
                 console.log("Item details added")
+        })
+        conn.query("select * from products",function(err,rows){
+            for (var i = 0; i < rows.length; i++) {
+            console.log(rows[i].item_id + " | " + rows[i].product_name + " | " +
+                rows[i].department_name + " | " + rows[i].price +
+                " | " + rows[i].stock_quantity);
+            console.log("------------------------------------------------");
+        }
         })
     })
 }
