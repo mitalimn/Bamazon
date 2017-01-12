@@ -2,16 +2,13 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 var keys = require('./dbconfig');
 
-
 var conn = mysql.createConnection({
     host: keys.host,
     user: keys.user,
     password: keys.password,
     port: keys.port,
     database: 'bamazon_DB',
-
 });
-
 
 conn.connect(function(err) {
     if (err) {
