@@ -38,12 +38,20 @@ function init() {
                 createDept();
                 break;
         }
-    })
+     })
 }
 
 function viewsalesbyDept(){
-
-}
+     conn.query("select * from department",function(err,rows){
+        console.log("Dept ID" +"\t"+ "Dept Name\t"+ "Total Sales");
+        console.log("------------------------------------------------");
+            for (var i = 0; i < rows.length; i++) {
+            console.log(rows[i].dept_id + " | " + rows[i].department_name + " | " +
+                rows[i].total_sales);
+            console.log("------------------------------------------------");
+        }
+    })
+ }
 
 function createDept(){
 	inquirer.prompt([{
@@ -66,12 +74,13 @@ function createDept(){
                 console.log("New Department details added")
         })
         conn.query("select * from department",function(err,rows){
+            
             for (var i = 0; i < rows.length; i++) {
             console.log(rows[i].dept_id + " | " + rows[i].department_name + " | " +
                 rows[i].over_head_costs +" | " + rows[i].total_sales);
             console.log("------------------------------------------------");
         }
-        })
+      })
     })
 }
 
