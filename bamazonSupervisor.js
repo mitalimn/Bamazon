@@ -1,4 +1,5 @@
 var mysql = require("mysql");
+var Table = require('cli-table');
 var inquirer = require("inquirer");
 var keys = require('./dbconfig');
 
@@ -37,19 +38,39 @@ function init() {
             case "Create New Department":
                 createDept();
                 break;
+            case "Exit":
+                conn.end();
+                break;
         }
      })
 }
 
 function viewsalesbyDept(){
-     conn.query("select * from department",function(err,rows){
-        console.log("Dept ID" +"\t"+ "Dept Name\t"+ "Total Sales");
-        console.log("------------------------------------------------");
-            for (var i = 0; i < rows.length; i++) {
-            console.log(rows[i].dept_id + " | " + rows[i].department_name + " | " +
-                rows[i].total_sales);
-            console.log("------------------------------------------------");
-        }
+     conn.query("select * from department",function(err,rows,fields){
+        if(err) throw err;
+
+       var table = new Table({
+  chars: { 'top': '═' , 'top-mid': '╤' , 'top-left': '╔' , 'top-right': '╗'
+         , 'bottom': '═' , 'bottom-mid': '╧' , 'bottom-left': '╚' , 'bottom-right': '╝'
+         , 'left': '║' , 'left-mid': '╟' , 'mid': '─' , 'mid-mid': '┼'
+         , 'right': '║' , 'right-mid': '╢' , 'middle': '│' },
+         head : ['Department ID', 'Department Name', 'OverHeadCost', 'Product Sales','Total Profit'],
+    colWidths :[15,20,15,15,15] 
+});
+for (var i = 0; i < rows.length; i++) {
+    table.push([rows[i].dept_id, rows[i].department_name, rows[i].over_head_costs,
+        rows[i].total_sales, (parseInt(rows[i].total_sales)-parseInt(rows[i].over_head_costs))]);
+}
+console.log(table.toString());
+
+
+        // console.log("Dept ID" +"\t"+ "Dept Name\t"+ "Total Sales");
+        // console.log("------------------------------------------------");
+        //     for (var i = 0; i < rows.length; i++) {
+        //     console.log(rows[i].dept_id + " | " + rows[i].department_name + " | " +
+        //         rows[i].total_sales);
+        //     console.log("------------------------------------------------");
+        // }
     })
  }
 
