@@ -6,3 +6,9 @@ The app will take in orders from customers and deplete stock from the store's in
 ![bamazonCustomer.js](https://github.com/mitalimn/Bamazon/raw/master/img/bamazoncust1.jpg)
 ![bamazonCustomer.js](https://github.com/mitalimn/Bamazon/raw/master/img/bamazoncust2.jpg)
 ![bamazonCustomer.js](https://github.com/mitalimn/Bamazon/raw/master/img/bamazoncust3.jpg)
+
+
+![bamazonManager.js](https://github.com/mitalimn/Bamazon/raw/master/img/bamazonman1.jpg)
+![bamazonManager.js](https://github.com/mitalimn/Bamazon/raw/master/img/bamazonman2.jpg)
+![bamazonManager.js](https://github.com/mitalimn/Bamazon/raw/master/img/bamazonman3.jpg)
+![bamazonManager.js](https://github.com/mitalimn/Bamazon/raw/master/img/bamazonman4.jpg)
