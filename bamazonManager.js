@@ -46,8 +46,7 @@ function init() {
 
             case "Add new Product":
                 addProduct();
-                break;
-            
+                break;            
         }
     });
 }
