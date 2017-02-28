@@ -33,3 +33,23 @@ values("After Earth DVD", "Movies and TV", 6.99, 15),
 ("Jurassic Park Collection Blu Ray", "Movies and TV", 25.99, 10),
 ("Hobbit Collection -3 Blu Ray", "Movies and TV", 22.99, 5),
 ("Da Vinci Code", "Movies and TV", 16.99, 10);
+
+
+select * from department;
+
+create table department(
+dept_id INTEGER(10) NOT NULL auto_increment primary key,
+department_name  VARCHAR(50) NOT NULL,
+over_head_costs  decimal(10,2),
+total_sales decimal(10,2)
+);
+
+
+update department  set total_sales = (select sum(total_sales) from department d inner join products p on d.department_name= p.department_name);
+
+--profut =  sales - over head cost
+
+select dept_id, department_name, over_ hesd product sales , totalsales -ovcost as total profit join on p and d on dept name  grp by dept name 
+
+"update products p, department d set d.total_sales =? where p.item_id=? and d.department_name = p.department_name";
+

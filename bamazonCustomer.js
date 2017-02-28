@@ -15,7 +15,7 @@ conn.connect(function(err) {
         console.error('error connecting: ' + err.stack);
         return;
     }
-    // console.log('connected as id ' + conn.threadId);
+     console.log('connected as id ' + conn.threadId);
 });
 
 function init() {
@@ -44,8 +44,8 @@ function promptProductId() {
             if (rows == "") {
                 console.log("invalid ID");
                 return;
-            } 
-            promptQuantity(ans.item_id);       
+            }
+            promptQuantity(ans.item_id);
         })
 
     })
@@ -62,33 +62,29 @@ function promptQuantity(itemId) {
         message: "How many you wish to buy ?"
     }]).then(function(ans) {
         var quantity = ans.qty;
-                  
+
         var query = "select * from products where ?";
         conn.query(query, { item_id: itemId }, function(err, rows) {
-             var cost = (quantity * parseFloat(rows[0].price));
-        var remItem = (parseInt(rows[0].stock_quantity) - quantity); //remaining quantity
-         
+            var cost = (quantity * parseFloat(rows[0].price));
+            var remItem = (parseInt(rows[0].stock_quantity) - quantity); //remaining quantity
+
             if (quantity <= rows[0].stock_quantity) {
-               conn.query("update products set ? where ?", [{ stock_quantity: remItem },
+                conn.query("update products set ? where ?", [{ stock_quantity: remItem },
                     { item_id: itemId }
                 ], function(err, rows) {
                     console.log("Order placed! \n Total Cost : " + cost);
                 })
 
-//update total sales in products once item purchased 
-var newprdSale = cost+(parseFloat(rows[0].product_sales));
-        var upQuery = "update products p, department d set d.total_sales =? where p.item_id=? and d.department_name = p.department_name";
-        conn.query(upQuery, [{product_sales:newprdSale},{item_id:itemId}],function(err,rows){
-            if(err) throw err;
-        });
-
-
-
+                //update total sales in products once item purchased 
+                var newprdSale = cost + (parseFloat(rows[0].product_sales));
+                var upQuery = "update products p, department d set d.total_sales =? where p.item_id=? and d.department_name = p.department_name";
+                conn.query(upQuery, [{ product_sales: newprdSale }, { item_id: itemId }], function(err, rows) {
+                    if (err) throw err;
+                });
             } else {
                 console.log("Insufficient Stock!!");
                 init();
             }
-
         }); //select query
     })
 }
